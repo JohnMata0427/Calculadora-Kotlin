@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
+import net.objecthunter.exp4j.ExpressionBuilder
+
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,46 +21,60 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val number1 = findViewById<TextView>(R.id.display)
-        val number2 = findViewById<TextView>(R.id.display2)
-        val result = findViewById<TextView>(R.id.resultado)
+        var operacionText = ""
 
-        var operation = ' '
+        val operacion = findViewById<TextView>(R.id.operacion)
+        val resultado = findViewById<TextView>(R.id.resultado)
 
-        findViewById<Button>(R.id.btn0).setOnClickListener {
-            if (operation == ' ') {
-                number1.text = "0"
+        val numeros = listOf(
+            findViewById<Button>(R.id.btn0),
+            findViewById<Button>(R.id.btn1),
+            findViewById<Button>(R.id.btn2),
+            findViewById<Button>(R.id.btn3),
+            findViewById<Button>(R.id.btn4),
+            findViewById<Button>(R.id.btn5),
+            findViewById<Button>(R.id.btn6),
+            findViewById<Button>(R.id.btn7),
+            findViewById<Button>(R.id.btn8),
+            findViewById<Button>(R.id.btn9),
+        )
+
+        val suma = findViewById<Button>(R.id.btnsum)
+        val resta = findViewById<Button>(R.id.resbtn)
+        val producto = findViewById<Button>(R.id.prodbtn)
+        val division = findViewById<Button>(R.id.divbtn)
+
+        val igual = findViewById<Button>(R.id.equalbtn)
+        val clear = findViewById<Button>(R.id.cbtn)
+
+        igual.setOnClickListener{
+            val resultadoOperacion = ExpressionBuilder(operacionText).build().evaluate().toString()
+            resultado.text = resultadoOperacion
+        }
+
+        numeros.forEach { numero ->
+            numero.setOnClickListener {
+                operacionText += numero.text
+                operacion.text = operacionText
+                igual.performClick()
+            }
+        }
+
+        producto.setOnClickListener {
+            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                operacionText += "*"
+                operacion.text = operacionText
             } else {
-                number2.text = "0"
+                operacionText = operacionText.dropLast(1) + "*"
+                operacion.text = operacionText
             }
         }
 
-        findViewById<Button>(R.id.btn1).setOnClickListener {
-            if (operation == ' ') {
-                number1.text = "1"
-            } else {
-                number2.text = "1"
-            }
-            number1.text = "1"
+        clear.setOnClickListener {
+            operacionText = operacionText.dropLast(1)
+            operacion.text = operacionText
+            if (operacionText.last().isDigit()) igual.performClick()
         }
-
-        findViewById<Button>(R.id.btnsum).setOnClickListener {
-            operation = "suma".single()
-        }
-        
-        findViewById<Button>(R.id.equalbtn){
-            if (operation == "suma".single()){
-                result.text = (number1.text.toString().toInt() + number2.text.toString().toInt()).toString()
-            }
-        }
-
-
-
-
-
-    }
-
-    private fun <T> findViewById(equalbtn: Int, function: () -> Unit) {
 
     }
 }

@@ -1,9 +1,9 @@
 ## Calculadora
 # Integrantes
-- Samuel Cuti
-- John Mata
-- Dustin Marcatoma
-- Alejandro Minga
-- Isabel Pazto
-- Alan Rios
-- Estefania Sanchez
+- Samuel Cuti -> Seno
+- John Mata -> Multiplicacion
+- Dustin Marcatoma -> Tangente
+- Alejandro Minga -> Division
+- Isabel Pazto -> Resta
+- Alan Rios -> Suma
+- Estefania Sanchez -> Coseno
