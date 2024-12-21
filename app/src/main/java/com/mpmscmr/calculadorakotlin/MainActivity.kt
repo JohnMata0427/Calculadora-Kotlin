@@ -44,12 +44,23 @@ class MainActivity : AppCompatActivity() {
         val producto = findViewById<Button>(R.id.prodbtn)
         val division = findViewById<Button>(R.id.divbtn)
 
+        val coseno = findViewById<Button>(R.id.cosbtn)
+
         val igual = findViewById<Button>(R.id.equalbtn)
         val clear = findViewById<Button>(R.id.cbtn)
 
-        igual.setOnClickListener{
-            val resultadoOperacion = ExpressionBuilder(operacionText).build().evaluate().toString()
-            resultado.text = resultadoOperacion
+        igual.setOnClickListener {
+            try {
+                // Verificar que los paréntesis estén balanceados
+                if (operacionText.count { it == '(' } == operacionText.count { it == ')' }) {
+                    val resultadoOperacion = ExpressionBuilder(operacionText).build().evaluate().toString()
+                    resultado.text = resultadoOperacion
+                } else {
+                    resultado.text = "Error: Paréntesis no balanceados"
+                }
+            } catch (e: Exception) {
+                resultado.text = "Error: ${e.message}"
+            }
         }
 
         numeros.forEach { numero ->
@@ -66,6 +77,14 @@ class MainActivity : AppCompatActivity() {
                 operacion.text = operacionText
             } else {
                 operacionText = operacionText.dropLast(1) + "*"
+                operacion.text = operacionText
+            }
+        }
+
+        coseno.setOnClickListener {
+            // La funcion coseno funciona primero ingresando el numero y luego la función para poder calcularlo
+            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                operacionText = "cos($operacionText)"
                 operacion.text = operacionText
             }
         }
