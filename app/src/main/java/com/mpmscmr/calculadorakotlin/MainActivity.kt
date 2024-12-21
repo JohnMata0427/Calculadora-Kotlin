@@ -86,6 +86,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        resta.setOnClickListener {
+            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                operacionText += "-"
+                operacion.text = operacionText
+            } else {
+                operacionText = operacionText.dropLast(1) + "-"
+                operacion.text = operacionText
+            }
+        }
+
         division.setOnClickListener {
             if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
                 operacionText += "/"
