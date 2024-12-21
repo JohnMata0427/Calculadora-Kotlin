@@ -51,6 +51,11 @@ class MainActivity : AppCompatActivity() {
 
         igual.setOnClickListener {
             try {
+                if (operacionText.contains("/0")) {
+                    resultado.text = "Syntax Error, no se puede dividir para 0"
+                    return@setOnClickListener
+                }
+
                 // Verificar que los paréntesis estén balanceados
                 if (operacionText.count { it == '(' } == operacionText.count { it == ')' }) {
                     val resultadoOperacion = ExpressionBuilder(operacionText).build().evaluate().toString()
@@ -77,6 +82,16 @@ class MainActivity : AppCompatActivity() {
                 operacion.text = operacionText
             } else {
                 operacionText = operacionText.dropLast(1) + "*"
+                operacion.text = operacionText
+            }
+        }
+
+        division.setOnClickListener {
+            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                operacionText += "/"
+                operacion.text = operacionText
+            } else {
+                operacionText = operacionText.dropLast(1) + "/"
                 operacion.text = operacionText
             }
         }
