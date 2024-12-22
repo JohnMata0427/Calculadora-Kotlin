@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 import net.objecthunter.exp4j.ExpressionBuilder
+import kotlin.math.PI
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val division = findViewById<Button>(R.id.divbtn)
 
         val coseno = findViewById<Button>(R.id.cosbtn)
+        val tangente = findViewById<Button>(R.id.tanbtn)
 
         val igual = findViewById<Button>(R.id.equalbtn)
         val clear = findViewById<Button>(R.id.cbtn)
@@ -114,10 +116,34 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+        tangente.setOnClickListener {
+            try {
+                if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                    igual.performClick()
+                    val angleInDegrees = resultado.text.toString().toDouble()
+                    val angleInRadians = Math.toRadians(angleInDegrees)
+                    val tanValue = kotlin.math.tan(angleInRadians)
+                    operacionText = tanValue.toString()
+                    val tan = "tan($angleInDegrees)"
+                    operacion.text = tan
+                    resultado.text = operacionText
+                }
+            } catch (e: Exception) {
+                resultado.text = "Error: ${e.message}"
+            }
+        }
+
         clear.setOnClickListener {
-            operacionText = operacionText.dropLast(1)
-            operacion.text = operacionText
-            if (operacionText.last().isDigit()) igual.performClick()
+            try {
+                operacionText = operacionText.dropLast(1)
+                operacion.text = operacionText
+                if (operacionText.last().isDigit()) igual.performClick()
+            } catch (e: Exception){
+                resultado.text = ""
+            }
+
+
         }
 
     }
