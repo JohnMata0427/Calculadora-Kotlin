@@ -78,6 +78,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        suma.setOnClickListener {
+            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                operacionText += "+"
+                operacion.text = operacionText
+            } else {
+                operacionText = operacionText.dropLast(1) + "+"
+                operacion.text = operacionText
+            }
+        }
+
         producto.setOnClickListener {
             if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
                 operacionText += "*"
