@@ -40,14 +40,18 @@ class MainActivity : AppCompatActivity() {
             findViewById<Button>(R.id.btn9),
         )
 
-        val suma = findViewById<Button>(R.id.btnsum)
-        val resta = findViewById<Button>(R.id.resbtn)
-        val producto = findViewById<Button>(R.id.prodbtn)
-        val division = findViewById<Button>(R.id.divbtn)
+        val operadoresBasicos = listOf(
+            findViewById<Button>(R.id.btnsum),
+            findViewById<Button>(R.id.resbtn),
+            findViewById<Button>(R.id.prodbtn),
+            findViewById<Button>(R.id.divbtn)
+        )
 
-        val seno = findViewById<Button>(R.id.senbtn)
-        val coseno = findViewById<Button>(R.id.cosbtn)
-        val tangente = findViewById<Button>(R.id.tanbtn)
+        val operadoresTrigonometricos = listOf(
+            findViewById<Button>(R.id.senbtn),
+            findViewById<Button>(R.id.cosbtn),
+            findViewById<Button>(R.id.tanbtn)
+        )
 
         val igual = findViewById<Button>(R.id.equalbtn)
         val clear = findViewById<Button>(R.id.cbtn)
@@ -79,99 +83,53 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        suma.setOnClickListener {
-            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                operacionText += "+"
-                operacion.text = operacionText
-            } else {
-                operacionText = operacionText.dropLast(1) + "+"
-                operacion.text = operacionText
-            }
-        }
-
-        producto.setOnClickListener {
-            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                operacionText += "*"
-                operacion.text = operacionText
-            } else {
-                operacionText = operacionText.dropLast(1) + "*"
-                operacion.text = operacionText
-            }
-        }
-
-        resta.setOnClickListener {
-            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                operacionText += "-"
-                operacion.text = operacionText
-            } else {
-                operacionText = operacionText.dropLast(1) + "-"
-                operacion.text = operacionText
-            }
-        }
-
-        division.setOnClickListener {
-            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                operacionText += "/"
-                operacion.text = operacionText
-            } else {
-                operacionText = operacionText.dropLast(1) + "/"
-                operacion.text = operacionText
-            }
-        }
-
-        coseno.setOnClickListener {
-            // La funcion coseno funciona primero ingresando el numero y luego la función para poder calcularlo
-            if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                operacionText = "cos($operacionText)"
-                operacion.text = operacionText
-            }
-        }
-
-
-        tangente.setOnClickListener {
-            try {
-                if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                    igual.performClick()
-                    val angleInDegrees = resultado.text.toString().toDouble()
-                    val angleInRadians = Math.toRadians(angleInDegrees)
-                    val tanValue = kotlin.math.tan(angleInRadians)
-                    operacionText = tanValue.toString()
-                    val tan = "tan($angleInDegrees)"
-                    operacion.text = tan
-                    resultado.text = operacionText
+        operadoresBasicos.forEach { operador ->
+            operador.setOnClickListener {
+                if (operacionText.isNotEmpty() && (operacionText.last().isDigit() || operacionText.last() == ')')) {
+                    operacionText += operador.text
+                    operacion.text = operacionText
+                } else {
+                    operacionText = operacionText.dropLast(1) + operador.text
+                    operacion.text = operacionText
                 }
-            } catch (e: Exception) {
-                resultado.text = "Error: ${e.message}"
             }
         }
 
-        seno.setOnClickListener {
-            try {
-                if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
-                    igual.performClick()
-                    val angleInDegrees = resultado.text.toString().toDouble()
-                    val angleInRadians = Math.toRadians(angleInDegrees)
-                    val sinValue = kotlin.math.sin(angleInRadians)
-                    operacionText = sinValue.toString()
-                    val sin = "sin($angleInDegrees)"
-                    operacion.text = sin
-                    resultado.text = operacionText
+        operadoresTrigonometricos.forEach { operador ->
+            operador.setOnClickListener {
+                try {
+                    if (operacionText.isNotEmpty() && (operacionText.last().isDigit() || operacionText.last() == ')')) {
+                        igual.performClick()
+                        val angleInDegrees = resultado.text.toString().toDouble()
+                        val angleInRadians = Math.toRadians(angleInDegrees)
+                        operacionText = "${operador.text}($operacionText)"
+                        operacion.text = operacionText
+                        when (operador.text) {
+                            "sen" -> resultado.text = Math.sin(angleInRadians).toString()
+                            "cos" -> resultado.text = Math.cos(angleInRadians).toString()
+                            "tan" -> resultado.text = Math.tan(angleInRadians).toString()
+                        }
+                    }
+                } catch (e: Exception) {
+                    resultado.text = "Error: ${e.message}"
                 }
-            } catch (e: Exception) {
-                resultado.text = "Error: ${e.message}"
             }
         }
 
         clear.setOnClickListener {
             try {
-                operacionText = operacionText.dropLast(1)
+                if (operacionText.last() == ')') {
+                    operacionText = operacionText.dropLast(1)
+                    operacionText = operacionText.dropWhile { it != '(' }
+                    operacionText = operacionText.drop(1)
+                } else operacionText = operacionText.dropLast(1)
+
                 operacion.text = operacionText
-                if (operacionText.last().isDigit()) igual.performClick()
+                if (operacionText.last().isDigit() || operacionText.last() == ')') igual.performClick()
+
             } catch (e: Exception){
                 resultado.text = ""
             }
-
-
         }
 
     }

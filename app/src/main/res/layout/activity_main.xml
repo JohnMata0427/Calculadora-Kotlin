@@ -104,6 +104,7 @@
         android:layout_marginEnd="307dp"
         android:layout_marginBottom="208dp"
         android:text="@string/_1"
+        android:textColorLink="#CDDC39"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -133,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="25dp"
-        android:text="@string/x"
+        android:text="@string/_mu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -212,11 +213,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="31dp"
-        android:layout_marginBottom="391dp"
+        android:layout_marginBottom="400dp"
         android:text="__"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.993"
+        app:layout_constraintHorizontal_bias="0.994"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -226,6 +228,8 @@
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="356dp"
         android:text="___"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -237,6 +241,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Calculadora"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
