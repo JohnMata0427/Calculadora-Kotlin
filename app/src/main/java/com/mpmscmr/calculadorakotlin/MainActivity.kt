@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val producto = findViewById<Button>(R.id.prodbtn)
         val division = findViewById<Button>(R.id.divbtn)
 
+        val seno = findViewById<Button>(R.id.senbtn)
         val coseno = findViewById<Button>(R.id.cosbtn)
         val tangente = findViewById<Button>(R.id.tanbtn)
 
@@ -137,6 +138,23 @@ class MainActivity : AppCompatActivity() {
                     operacionText = tanValue.toString()
                     val tan = "tan($angleInDegrees)"
                     operacion.text = tan
+                    resultado.text = operacionText
+                }
+            } catch (e: Exception) {
+                resultado.text = "Error: ${e.message}"
+            }
+        }
+
+        seno.setOnClickListener {
+            try {
+                if (operacionText.isNotEmpty() && operacionText.last().isDigit()) {
+                    igual.performClick()
+                    val angleInDegrees = resultado.text.toString().toDouble()
+                    val angleInRadians = Math.toRadians(angleInDegrees)
+                    val sinValue = kotlin.math.sin(angleInRadians)
+                    operacionText = sinValue.toString()
+                    val sin = "sin($angleInDegrees)"
+                    operacion.text = sin
                     resultado.text = operacionText
                 }
             } catch (e: Exception) {
